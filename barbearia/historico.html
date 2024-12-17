@@ -1,86 +1,49 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Histórico de Agendamentos</title>
     <link rel="stylesheet" href="css/historicostyle.css">
-    <title>Histórico</title>
 </head>
+
 <body>
 
+    <h1>Histórico de Agendamentos</h1>
 
-    <div id="cartao-historico"></div>
+    <div id="listaHistorico"></div>
 
     <script>
+        const listaAgendamentos = JSON.parse(localStorage.getItem('listaAgendamentos')) || [];
 
-        const historicoAgendamentos = JSON.parse(localStorage.getItem('historicoAgendamentos')) || [];
-        const cartaoHistorico = document.getElementById('cartao-historico');
-        if (historicoAgendamentos.length > 0) {
-            historicoAgendamentos.forEach((registroAgendamento, indice) => {
-    
-                const registro = document.createElement('div');
-                registro.classList.add('registro-historico');
-    
-                const numero = document.createElement('p');
-                numero.style.color = 'white';
-                numero.style.fontSize = '30px';
-                numero.style.fontFamily = 'sans-serif';
-                numero.textContent = indice + 1 + ' - ';
-                registro.appendChild(numero);
-    
-                const linhaHorizontal = document.createElement('hr');
-                registro.appendChild(linhaHorizontal);
-    
-                const data = document.createElement('p');
-                data.style.color = 'white';
-                data.style.fontSize = '30px';
-                data.style.fontFamily = 'sans-serif';
-                data.style.fontWeight = 'bold';
-                data.textContent = 'Data: ' + registroAgendamento.dataAgendamento;
-                registro.appendChild(data);
-    
-                const horario = document.createElement('p');
-                horario.style.color = 'white';
-                horario.style.fontSize = '30px';
-                horario.style.fontFamily = 'sans-serif';
-                horario.style.fontWeight = 'bold';
-                horario.textContent = 'Horário: ' + registroAgendamento.horaAgendamento;
-                registro.appendChild(horario);
-    
-                const custoTotal = document.createElement('p');
-                custoTotal.style.color = 'white';
-                custoTotal.style.fontSize = '30px';
-                custoTotal.style.fontFamily = 'sans-serif';
-                custoTotal.style.fontWeight = 'bold';
-                custoTotal.textContent = 'Custo: R$' + registroAgendamento.custoTotal + ',00';
-                registro.appendChild(custoTotal);
-    
-                const linhaHorizontal2 = document.createElement('hr');
-                registro.appendChild(linhaHorizontal2);
-    
-                const listaServicos = document.createElement('div');
-                registroAgendamento.servicosSelecionados.forEach(servico => {
-                    const item = document.createElement('p');
-                    item.style.color = 'white';
-                    item.style.fontSize = '30px';
-                    item.style.fontFamily = 'sans-serif';
-                    item.textContent = servico;
-                    listaServicos.appendChild(item);
+        const listaHistoricoDiv = document.getElementById('listaHistorico');
+
+        if (listaAgendamentos.length > 0) {
+            listaAgendamentos.forEach((agendamento, indice) => {
+                const blocoHistorico = document.createElement('div');
+                blocoHistorico.classList.add('registroAgendamento');
+
+                const infoDataHora = document.createElement('p');
+                infoDataHora.textContent = `Agendamento ${indice + 1} - Data: ${agendamento.data}, Hora: ${agendamento.hora}`;
+                blocoHistorico.appendChild(infoDataHora);
+
+                const listaServicos = document.createElement('ul');
+                agendamento.servicos.forEach(servico => {
+                    const itemServico = document.createElement('li');
+                    itemServico.textContent = servico;
+                    listaServicos.appendChild(itemServico);
                 });
-    
-                const quebra = document.createElement('br');
-                listaServicos.appendChild(quebra);
-                const quebra2 = document.createElement('br');
-                listaServicos.appendChild(quebra2);
-    
-                registro.appendChild(listaServicos);
-                cartaoHistorico.appendChild(registro);
-    
+
+                blocoHistorico.appendChild(listaServicos);
+                listaHistoricoDiv.appendChild(blocoHistorico);
             });
+        } else {
+            listaHistoricoDiv.textContent = 'Nenhum agendamento realizado ainda.';
+            listaHistoricoDiv.style.color = '#ffffff';
         }
-    
     </script>
-    
-    
+
 </body>
+
 </html>
