@@ -1,67 +1,64 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agendar</title>
     <link rel="stylesheet" href="css/agendastyle.css">
-    <title>Barbearia</title>
 </head>
-<body id="bodySchedule">
 
-    
-    <img id="iconRickandMorty" src="imagens/Rick-and-Morty-4.webp">
+<body>
 
-    <form id="scheduleForm">
-        <div class="scheduleContainer">
+    <img src="imagens/Rick-and-Morty-4.webp" alt="Imagem Rick e Morty" class="header-image">
 
-            <h2 class="labelSchedule">Data</h2>
-            <input type="date" id="scheduleDate" class="inputSchedule" required>
+    <div>
+        <form id="formularioAgendamento">
+            <label for="dataAgendamento">Data:</label>
+            <input type="date" id="dataAgendamento" required>
 
-            <h2 class="labelSchedule">Horário</h2>
-            <input type="time" id="scheduleTime" class="inputSchedule" placeholder="digite seu e-mail" required>
+            <label for="horaAgendamento">Hora:</label>
+            <input type="time" id="horaAgendamento" required>
 
-            <h2 class="labelSchedule">Serviço</h2>
-            <div class="checkboxScheduleContainer">
-                <label class="checkboxSchedule"><input id="Cabelo" class="checkbox" type="checkbox"> Corte</label>
-                <label class="checkboxSchedule"><input id="Barba" class="checkbox" type="checkbox"> Barba</label>
-                <label class="checkboxSchedule"><input id="Sobrancelha" class="checkbox" type="checkbox"> Sobrancelha<br></label>
+            <label for="tipoServicos">Serviços:</label>
+            <div class="opcoesServicos">
+                <label><input type="checkbox" id="opcaoBarba"> Barba</label>
+                <label><input type="checkbox" id="opcaoCabelo"> Cabelo</label>
+                <label><input type="checkbox" id="opcaoSobrancelha"> Sobrancelha</label>
             </div>
-            <button type="submit" id="submitSchedule" class="enterButton">Agendar</button>
-        </div>
-    </form>
+
+            <button type="submit">Agendar</button>
+        </form>
+    </div>
 
     <script>
-
         const formularioAgendamento = document.getElementById('formularioAgendamento');
-    
+
         formularioAgendamento.addEventListener('submit', (evento) => {
-    
             evento.preventDefault();
+
             const dataAgendamento = document.getElementById('dataAgendamento').value;
             const horaAgendamento = document.getElementById('horaAgendamento').value;
-            let custoTotal = 0;
+
             const servicosSelecionados = [];
-            if (document.getElementById('Cabelo').checked) {
-                servicosSelecionados.push('Corte');
-                custoTotal += 40;
+            if (document.getElementById('opcaoBarba').checked) servicosSelecionados.push('Barba');
+            if (document.getElementById('opcaoCabelo').checked) servicosSelecionados.push('Cabelo');
+            if (document.getElementById('opcaoSobrancelha').checked) servicosSelecionados.push('Sobrancelha');
+
+            if (servicosSelecionados.length === 0) {
+                alert('Selecione pelo menos um serviço.');
+                return;
             }
-            if (document.getElementById('Barba').checked) {
-                servicosSelecionados.push('Barba');
-                custoTotal += 25;
-            }
-            if (document.getElementById('Sobrancelha').checked) {
-                servicosSelecionados.push('Sobrancelha');
-                custoTotal += 10;
-            }
-    
-            let historicoAgendamentos = JSON.parse(localStorage.getItem('historicoAgendamentos')) || [];
-            historicoAgendamentos.push({ dataAgendamento, horaAgendamento, servicosSelecionados, custoTotal });
-            localStorage.setItem('historicoAgendamentos', JSON.stringify(historicoAgendamentos));
-            window.location.href = 'principal.html';
+
+            const listaAgendamentos = JSON.parse(localStorage.getItem('listaAgendamentos')) || [];
+            listaAgendamentos.push({ data: dataAgendamento, hora: horaAgendamento, servicos: servicosSelecionados });
+            localStorage.setItem('listaAgendamentos', JSON.stringify(listaAgendamentos));
+
+            alert('Agendamento realizado com sucesso!');
+            window.location.href = 'historico.html';
         });
-    
     </script>
-    
 
 </body>
+
 </html>
