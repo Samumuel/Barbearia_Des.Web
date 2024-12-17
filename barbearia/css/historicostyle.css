@@ -1,0 +1,15 @@
+body {
+    background-color: black;
+}
+
+#cartao-historico {
+    margin-left: 5%;
+    margin-right: 5%;
+    margin-top: 5%;
+    margin-bottom: 5%;
+    border-style: solid;
+    border-color: white;
+    border-radius: 30px;
+    border-width: 5px;
+    padding: 20px;
+}

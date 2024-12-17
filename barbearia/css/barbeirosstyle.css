@@ -1,0 +1,22 @@
+body {
+    background-color: black;
+}
+
+.foto-profissional {
+    width: 100%;
+    border-radius: 50px;
+}
+
+.titulo-profissionais {
+    width: 90%;
+    margin: 5%;
+    font-family: sans-serif;
+    color: white;
+    font-weight: bold;
+}
+
+.texto-cartao {
+    color: chartreuse;
+    font-family: sans-serif;
+    font-size: medium;
+}
